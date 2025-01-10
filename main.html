@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>음성 인식 예제</title>
+</head>
+<body>
+    <h1>음성 인식 테스트</h1>
+    <button id="start-btn">음성 인식 시작</button>
+    <p id="result"></p>
+
+    <script>
+        const startBtn = document.getElementById('start-btn');
+        const resultDisplay = document.getElementById('result');
+
+        const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+
+        recognition.lang = 'ko-KR'; // 한국어로 설정
+        recognition.interimResults = false; // 중간 결과 표시 여부
+
+        recognition.onresult = (event) => {
+            const transcript = event.results[0][0].transcript;
+            resultDisplay.textContent = `인식된 텍스트: ${transcript}`;
+        };
+
+        recognition.onerror = (event) => {
+            console.error('음성 인식 오류:', event.error);
+        };
+
+        startBtn.addEventListener('click', () => {
+            recognition.start();
+        });
+    </script>
+</body>
+</html>
